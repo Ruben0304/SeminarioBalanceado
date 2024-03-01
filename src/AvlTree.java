@@ -11,16 +11,15 @@ public class AvlTree<E extends Comparable<E>> extends BinaryTree<E> implements B
 
     public AvlTree() {
         super();
-        this.root = new AvlNode<>(null);
+
     }
 
-    private static class AvlNode<E> extends BinaryTreeNode<E> {
+    public static class AvlNode<E> extends BinaryTreeNode<E> {
         public int height = 0;
 
         public AvlNode(E valor) {
             super(valor);
-            this.left = new AvlNode<>(null);
-            this.right = new AvlNode<>(null);
+
         }
     }
 
@@ -135,6 +134,32 @@ public class AvlTree<E extends Comparable<E>> extends BinaryTree<E> implements B
     // Método para obtener el factor de equilibrio de un nodo (si el nodo es nulo, devuelve 0)
     private int balance(AvlNode<E> node) {
         return node == null ? 0 : height((AvlNode<E>)node.getRight()) - height((AvlNode<E>)node.getLeft());
+    }
+
+
+
+    @Override
+    public String toString() {
+        // Se crea un StringBuilder vacío
+        StringBuilder sb = new StringBuilder();
+        // Se llama al método auxiliar con la raíz y el StringBuilder
+        recorrerEntreorden((AvlNode<E>) root, sb);
+        // Se retorna el contenido del StringBuilder como una cadena
+        return sb.toString();
+    }
+
+
+    private void recorrerEntreorden(AvlNode<E> nodo, StringBuilder sb) {
+        if (nodo != null) {
+            // Se recorre el subárbol izquierdo
+            recorrerEntreorden((AvlNode<E>) nodo.getLeft(), sb);
+            // Se agrega el elemento del nodo al StringBuilder
+            sb.append(nodo.getInfo());
+            // Se agrega un espacio al StringBuilder
+            sb.append(" ");
+            // Se recorre el subárbol derecho
+            recorrerEntreorden((AvlNode<E>)nodo.getRight(), sb);
+        }
     }
 }
 
