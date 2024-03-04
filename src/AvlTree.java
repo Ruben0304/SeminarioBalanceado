@@ -14,12 +14,27 @@ public class AvlTree<E extends Comparable<E>> extends BinaryTree<E> implements B
 
     }
 
-    public static class AvlNode<E> extends BinaryTreeNode<E> {
+    public static class AvlNode<E> extends BinaryTreeNode<E> implements PrintableNode {
         public int height = 0;
 
         public AvlNode(E valor) {
             super(valor);
 
+        }
+
+        @Override
+        public PrintableNode getIzquierdo(){
+            return (PrintableNode) getLeft();
+        }
+
+        @Override
+        public PrintableNode getDerecho(){
+            return (PrintableNode) getRight();
+        }
+
+        @Override
+        public String toString() {
+            return info.toString();
         }
     }
 
@@ -83,7 +98,7 @@ public class AvlTree<E extends Comparable<E>> extends BinaryTree<E> implements B
     }
 
     // Método para rotar a la derecha un subárbol con raíz dada y devolver la nueva raíz
-    private AvlNode<E> rightRotate(AvlNode node) {
+    private AvlNode<E> rightRotate(AvlNode<E> node) {
         // Guardar una referencia al hijo izquierdo del nodo
         AvlNode left = (AvlNode<E>)node.getLeft();
 
@@ -134,6 +149,97 @@ public class AvlTree<E extends Comparable<E>> extends BinaryTree<E> implements B
     // Método para obtener el factor de equilibrio de un nodo (si el nodo es nulo, devuelve 0)
     private int balance(AvlNode<E> node) {
         return node == null ? 0 : height((AvlNode<E>)node.getRight()) - height((AvlNode<E>)node.getLeft());
+    }
+
+    // Método para eliminar un valor del árbol
+    public void deleteValue(E value) {
+        // Llamar al método recursivo que elimina el valor y devuelve la nueva raíz
+        root = delete((AvlNode<E>) root, value);
+    }
+
+    // Método recursivo que elimina un valor del subárbol con raíz dada y devuelve la nueva raíz
+    private AvlNode<E> delete(AvlNode<E> node, E value) {
+        // Si el nodo es nulo, no hacer nada
+        if (node == null) {
+            return node;
+        }
+
+        // Comparar el valor con el dato del nodo
+        int cmp = value.compareTo(node.getInfo());
+
+        // Si el valor es menor que el dato del nodo, eliminarlo del subárbol izquierdo
+        if (cmp < 0) {
+            node.setLeft(delete((AvlNode<E>) node.getLeft(), value));;
+        }
+        // Si el valor es mayor que el dato del nodo, eliminarlo del subárbol derecho
+        else if (cmp > 0) {
+            node.setRight(delete((AvlNode<E>) node.getRight(), value)); 
+        }
+        // Si el valor es igual que el dato del nodo, eliminar el nodo
+        else {
+            // Si el nodo es una hoja, devolver nulo
+            if (node.getLeft() == null && node.getRight()== null) {
+                return null;
+            }
+            // Si el nodo tiene un solo hijo, devolver ese hijo
+            else if (node.getLeft() == null) {
+                return (AvlNode<E>) node.getRight();
+            }
+            else if (node.getRight()== null) {
+                return (AvlNode<E>) node.getLeft();
+            }
+            // Si el nodo tiene dos hijos, reemplazar el dato del nodo por el mayor valor del subárbol izquierdo
+            else {
+                node.setInfo(getMax((AvlNode<E>)node.getLeft()));
+                // Eliminar el nodo que contiene el mayor valor del subárbol izquierdo
+                node.setLeft(delete((AvlNode<E>) node.getLeft(), node.getInfo()));
+            }
+        }
+
+        // Actualizar la altura del nodo
+        node.height = Math.max(height((AvlNode<E>) node.getLeft()), height((AvlNode<E>)node.getRight())) + 1;
+
+        // Calcular el factor de equilibrio del nodo
+        int balance = balance(node);
+
+        // Si el nodo está desbalanceado hacia la izquierda y el factor de equilibrio del hijo izquierdo es 0 o -1, rotar a la derecha
+        if (balance < -1 && balance((AvlNode<E>) node.getLeft()) <= 0) {
+            return rightRotate(node);
+        }
+
+        // Si el nodo está desbalanceado hacia la derecha y el factor de equilibrio del hijo derecho es 0 o 1, rotar a la izquierda
+        if (balance > 1 && balance((AvlNode<E>) node.getRight()) >= 0) {
+            return leftRotate(node);
+        }
+
+        // Si el nodo está desbalanceado hacia la izquierda y el factor de equilibrio del hijo izquierdo es 1, rotar a la izquierda el hijo izquierdo y luego rotar a la derecha el nodo
+        if (balance < -1 && balance((AvlNode<E>) node.getLeft()) > 0) {
+            node.setLeft(leftRotate((AvlNode<E>) node.getLeft()));
+            return rightRotate(node);
+        }
+
+        // Si el nodo está desbalanceado hacia la derecha y el factor de equilibrio del hijo derecho es -1, rotar a la derecha el hijo derecho y luego rotar a la izquierda el nodo
+        if (balance > 1 && balance((AvlNode<E>) node.getRight()) < 0) {
+            node.setRight(rightRotate((AvlNode<E>) node.getRight()));
+            return leftRotate(node);
+        }
+
+        // Si el nodo está balanceado, devolverlo sin cambios
+        return node;
+    }
+
+    // Método para obtener el mayor valor de un subárbol con raíz dada
+    private E getMax(AvlNode<E> node) {
+        // Si el nodo es nulo, devolver nulo
+        if (node == null) {
+            return null;
+        }
+        // Si el nodo no tiene hijo derecho, devolver su dato
+        if (node.getRight() == null) {
+            return node.getInfo();
+        }
+        // Si el nodo tiene hijo derecho, seguir buscando el mayor valor en el subárbol derecho
+        return getMax((AvlNode<E>) node.getRight());
     }
 
 

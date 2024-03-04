@@ -1,19 +1,43 @@
 public class Main {
     public static void main(String[] args) {
 
-        AvlTree<Double> testTree = new AvlTree<>(6.0);
-        testTree.insert(7.0);
-        testTree.insert(9.0);
-        testTree.insert(8.5);
-        testTree.insert(10.0);
-        testTree.insert(7.5);
-        testTree.insert(13.0);
-        testTree.insert(8.0);
+
+        AvlTree<Integer> testTree = new AvlTree<>(0);
+        for (int i = 20; i > 14; i--) {
+            testTree.insert(i);
+        }
+        for (int i = 1; i < 12; i+=3) {
+            testTree.insert(i);
+        }
+        for (int i = 15; i < 400; i*=3) {
+            testTree.insert(i);
+        }
+
+        TreePrinter.print((PrintableNode) testTree.getNodeRoot());
+
+        testTree.deleteValue(17);
+        testTree.deleteValue(1);
+        testTree.deleteValue(15);
+
+        TreePrinter.print((PrintableNode) testTree.getNodeRoot());
 
 
+        AvlTree<String> arbolS = new AvlTree<>("Ernesto");
+        arbolS.insert("Pedro");
+        arbolS.insert("Nestor");
+        arbolS.insert("Alejandro");
+        arbolS.insert("Xavier");
+        arbolS.insert("Carlos");
+        arbolS.insert("Valentin");
+        arbolS.insert("Manuel");
 
-        System.out.println(testTree);
-        System.out.println(((AvlTree.AvlNode<Double>)testTree.getNodeRoot().getRight()).height);
-        System.out.println(((AvlTree.AvlNode<Double>)testTree.getNodeRoot().getLeft()).height);
+
+        TreePrinter.print((PrintableNode) arbolS.getNodeRoot());
+        arbolS.deleteValue("Pedro");
+        arbolS.deleteValue("Xavier");
+        arbolS.deleteValue("Valentin");
+        TreePrinter.print((PrintableNode) arbolS.getNodeRoot());
+
+
     }
 }
