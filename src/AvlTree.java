@@ -244,29 +244,7 @@ public class AvlTree<E extends Comparable<E>> extends BinaryTree<E> implements B
 
 
 
-    @Override
-    public String toString() {
-        // Se crea un StringBuilder vacío
-        StringBuilder sb = new StringBuilder();
-        // Se llama al método auxiliar con la raíz y el StringBuilder
-        recorrerEntreorden((AvlNode<E>) root, sb);
-        // Se retorna el contenido del StringBuilder como una cadena
-        return sb.toString();
-    }
 
-
-    private void recorrerEntreorden(AvlNode<E> nodo, StringBuilder sb) {
-        if (nodo != null) {
-            // Se recorre el subárbol izquierdo
-            recorrerEntreorden((AvlNode<E>) nodo.getLeft(), sb);
-            // Se agrega el elemento del nodo al StringBuilder
-            sb.append(nodo.getInfo());
-            // Se agrega un espacio al StringBuilder
-            sb.append(" ");
-            // Se recorre el subárbol derecho
-            recorrerEntreorden((AvlNode<E>)nodo.getRight(), sb);
-        }
-    }
 }
 
 
