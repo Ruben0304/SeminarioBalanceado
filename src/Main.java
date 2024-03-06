@@ -1,26 +1,44 @@
+import javax.swing.*;
+
 public class Main {
     public static void main(String[] args) {
 
 
-//        AvlTree<Integer> testTree = new AvlTree<>(0);
+
+
+        AvlTree<Integer> testTree = new AvlTree<>();
 //        for (int i = 20; i > 14; i--) {
 //            testTree.insert(i);
 //        }
-//        for (int i = 1; i < 12; i+=3) {
-//            testTree.insert(i);
-//        }
+//
 //        for (int i = 15; i < 400; i*=3) {
 //            testTree.insert(i);
 //        }
-//
+//        testTree.insert(null);
+//        testTree.deleteValue(null);
 //        TreePrinter.print((PrintableNode) testTree.getNodeRoot());
 //
-//        testTree.deleteValue(17);
-//        testTree.deleteValue(1);
-//        testTree.deleteValue(15);
 //
-//        TreePrinter.print((PrintableNode) testTree.getNodeRoot());
-//
+//        testTree.deleteValue(0);
+//        testTree.deleteValue(16);
+
+
+        testTree.insert(2);
+        testTree.insert(5);
+        testTree.insert(4);
+        testTree.insert(6);
+        testTree.insert(7);
+
+//        testTree.deleteValue(2);
+        testTree.deleteValue(6);
+        testTree.deleteValue(7);
+
+
+
+        TreePrinter.print((PrintableNode) testTree.getNodeRoot());
+
+
+
 //
 //        AvlTree<String> arbolS = new AvlTree<>("Ernesto");
 //        arbolS.insert("Pedro");
@@ -38,25 +56,18 @@ public class Main {
 //        arbolS.deleteValue("Valentin");
 //        TreePrinter.print((PrintableNode) arbolS.getNodeRoot());
 
-        AvlTree<Double> a = new AvlTree<>();
-        a.insert(6.0);
-        a.insert(7.0);
-        a.insert(9.0);
-        a.insert(8.5);
-        a.insert(10.0);
-        a.insert(7.5);
-        a.insert(13.0);
-        a.insert(8.0);
-        TreePrinter.print((PrintableNode) a.getNodeRoot());
-//        a.deleteValue(a.getNodeRoot().getInfo());
-//        a.deleteValue(6.0);
-//        a.deleteValue(7.0);
-//        a.deleteValue(7.5);
-//        a.deleteValue(8.0);
-        a.deleteValue(6.0);
-        a.deleteValue(9.0);
-        a.deleteValue(13.0);
-        TreePrinter.print((PrintableNode) a.getNodeRoot());
+        AvlTree<Persona> arbolP = new AvlTree<>(new Persona("Ernesto 15",15));
+        arbolP.insert(new Persona("Pedro 11",11));
+        arbolP.insert(new Persona("Yoel 19",19));
+        arbolP.insert(new Persona("Adriana 2",2));
+        arbolP.insert(new Persona("Manuel 90",90));
+        arbolP.insert(new Persona("Sophia 45",45));
+        arbolP.insert(new Persona("Lola 8",8));
 
+        TreePrinter.print((PrintableNode)arbolP.getNodeRoot());
+
+        arbolP.deleteValue(new Persona("Sophia 45",45));
+
+        TreePrinter.print((PrintableNode)arbolP.getNodeRoot());
     }
 }
